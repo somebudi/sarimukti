@@ -1,103 +1,115 @@
+"use client";
 import Image from "next/image";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ResponsiveContainer} from 'recharts';
+import React from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+
+const lineData = [
+  { name: "Jan", latest: 90, popular: 40, featured: 35 },
+  { name: "Feb", latest: 70, popular: 45, featured: 20 },
+  { name: "Mar", latest: 80, popular: 39, featured: 40 },
+  { name: "Apr", latest: 60, popular: 20, featured: 50 },
+  { name: "May", latest: 60, popular: 55, featured: 80 },
+  { name: "Jun", latest: 65, popular: 70, featured: 65 },
+  { name: "Jul", latest: 75, popular: 65, featured: 70 },
+];
+
+const barData = [
+  { name: "Red", hits: 12 },
+  { name: "Blue", hits: 19 },
+  { name: "Yellow", hits: 5 },
+  { name: "Green", hits: 7 },
+  { name: "Purple", hits: 3 },
+  { name: "Orange", hits: 4 },
+];
+
+const pieData = [
+  { name: "Used", value: 4600, color: "#a78bfa" },
+  { name: "Available", value: 5400, color: "#2dd4bf" },
+];
 
 export default function Home() {
+  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen">
+      <nav className="bg-white shadow">
+        <h1 className="text-2xl font-bold text-center p-4 text-black">
+          SARIMUKTI
+        </h1>
+        <div className="space-x-4">
+          <span className="font-semibold text-gray-700">Dashboard</span>
+          <span className="text-gray-600">Reports</span>
+          <span className="text-gray-600">Products</span>
+          <span className="text-gray-600">Settings</span>
+          <span className="text-gray-600">Profile</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 flex flex-col text-center items-center">
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="text-xl font-semibold mb-4 text-black">Latest</h2>
+          <ResponsiveContainer width="100%" height={200}>
+          <LineChart width={500} height={200} data={lineData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <legend />
+            <Line type="monotone" dataKey="latest" stroke="#06b6d4" />
+            <Line type="monotone" dataKey="popular" stroke="#fb7185" />
+            <Line type="monotone" dataKey="featured" stroke="#a78bfa" />
+          </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-white p-6 rounded shadow flex flex-col text-center items-center">
+          <h2 className="text-xl font-semibold mb-4 text-black">Storage</h2>
+          <ResponsiveContainer width="100%" height={250}>
+          <PieChart width={500} height={250}>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              dataKey={"value"}
+              label
+            >
+              {pieData.map((entry) => (
+                <Cell key={entry.name} fill={entry.color} />
+              ))}
+            </Pie>
+          </PieChart>
+          </ResponsiveContainer>
+          <div className="text-center mt-2">
+            <span className="text-lg font-semibold">4600 GB</span>
+            <span className="text-lg font-semibold">5400 GB</span>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded shadow flex flex-col text-center items-center">
+          <h2 className="font-semibold mb-2 text-black">Performance</h2>
+          <ResponsiveContainer width="100%" height={200}>
+          <BarChart width={300} height={200} data={barData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="hits" fill="#f87171" />
+          </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-white p-4 rounded shadow flex flex-col text-center">
+          <h2 className="text-xl font-semibold mb-2 text-black">Calendar</h2>
+          <ResponsiveContainer width="100%" height={200}>
+          <iframe
+            title="calendar"
+            src="https://calendar.google.com/calendar/embed?src=en.indonesian%23holiday%40group.v.calendar.google.com&ctz=Asia%2FJakarta"
+            style={{ border: 0 }}
+            width="400"
+            height="250"
+            className="rounded"
+          ></iframe>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
-  );
-}
+  )
+} 
