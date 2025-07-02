@@ -5,32 +5,32 @@ import Link from "next/link";
 import { Trash2 } from "lucide-react";
 
 export default function Products() {
-  const [productsList, setProductsList] = useState<any[]>([]);
-  const [selected, setSelected] = useState<number[]>([]);
-  const ITEMS_PER_PAGE = 10;
-  const [currentPage, setCurrentPage] = useState(1);
+    const [productsList, setProductsList] = useState<any[]>([]);
+    const [selected, setSelected] = useState<number[]>([]);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await fetch("https://68653f2f5b5d8d0339806cfb.mockapi.io/Product");
-      const data = await res.json();
-      setProductsList(data);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const res = await fetch("https://68653f2f5b5d8d0339806cfb.mockapi.io/Product");
+            const data = await res.json();
+            setProductsList(data);
+        };
+        fetchProducts();
+    }, []);
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginatedProducts = productsList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(productsList.length / ITEMS_PER_PAGE);
+
+    const toggleSelect = (id: number) => {
+        setSelected((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
     };
-    fetchProducts();
-  }, []);
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProducts = productsList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  const totalPages = Math.ceil(productsList.length / ITEMS_PER_PAGE);
-
-  const toggleSelect = (id: number) => {
-    setSelected((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
-  };
-
-  const deleteSelected = () => {
-    setProductsList((prev) => prev.filter((p) => !selected.includes(p.id)));
-    setSelected([]);
-  };
+    const deleteSelected = () => {
+        setProductsList((prev) => prev.filter((p) => !selected.includes(p.id)));
+        setSelected([]);
+    };
     return (
         <div className="min-h-screen">
             {/* Navbar */}
