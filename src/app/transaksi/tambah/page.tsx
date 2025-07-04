@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Menu, X } from 'lucide-react';
 
 export default function AddProductForm() {
     const [form, setForm] = useState({
@@ -22,21 +23,39 @@ export default function AddProductForm() {
             setForm({ ...form, image: e.target.files[0] });
         }
     };
-
+    
+    const [menuOpen, setMenuOpen] = useState(false);
     return (
 
         <div className="min-h-screen">
             <nav className="bg-white shadow">
-                <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold text-black">SARIMUKTI</h1>
-                    <div className="space-x-4 mt-2 md:mt-0">
-                        <Link href="/" className="text-gray-600">Dashboard</Link>
+
+                    <div className="md:hidden">
+                        <button onClick={() => setMenuOpen(!menuOpen)}>
+                            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                        </button>
+                    </div>
+
+                    <div className="hidden md:flex space-x-4">
+                        <Link href="/" className="text-gray-600">Home</Link>
                         <Link href="/history" className="text-gray-600">History</Link>
-                        <Link href="/transaksi/Product" className="text-gray-600">Products</Link>
-                        <Link href="/akun" className="text-gray-600">Profile</Link>
+                        <Link href="/transaksi/Product" className="text-green-600">Products</Link>
+                        <Link href="/akun" className="text-gray-600 font-medium">Profile</Link>
                         <Link href="/logOut" className="text-gray-600">⏻ Log Out</Link>
                     </div>
                 </div>
+
+                {menuOpen && (
+                    <div className="md:hidden px-4 pb-4 space-y-2">
+                        <Link href="/" className="block text-gray-600">Home</Link>
+                        <Link href="/history" className="block text-gray-600">History</Link>
+                        <Link href="/transaksi/Product" className="block text-green-600">Products</Link>
+                        <Link href="/akun" className="block text-gray-600 font-medium">Profile</Link>
+                        <Link href="/logOut" className="block text-gray-600">⏻ Log Out</Link>
+                    </div>
+                )}
             </nav>
             <main className="container mx-auto px-4 py-6">
                 <div className="bg-white p-6 rounded shadow">

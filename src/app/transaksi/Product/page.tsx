@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Menu, X } from 'lucide-react';
+
 
 export default function Products() {
     const [productsList, setProductsList] = useState<any[]>([]);
@@ -31,20 +32,37 @@ export default function Products() {
         setProductsList((prev) => prev.filter((p) => !selected.includes(p.id)));
         setSelected([]);
     };
+    const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div className="min-h-screen">
-            {/* Navbar */}
             <nav className="bg-white shadow">
-                <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold text-black">SARIMUKTI</h1>
-                    <div className="space-x-4 mt-2 md:mt-0">
-                        <Link href="/" className="text-gray-600">Dashboard</Link>
+
+                    <div className="md:hidden">
+                        <button onClick={() => setMenuOpen(!menuOpen)}>
+                            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                        </button>
+                    </div>
+
+                    <div className="hidden md:flex space-x-4">
+                        <Link href="/" className="text-gray-600">Home</Link>
                         <Link href="/history" className="text-gray-600">History</Link>
-                        <Link href="/transaksi/Product" className="text-gray-600">Products</Link>
-                        <Link href="/akun" className="text-gray-600">Profile</Link>
+                        <Link href="/transaksi/Product" className="text-green-600">Products</Link>
+                        <Link href="/akun" className="text-gray-600 font-medium">Profile</Link>
                         <Link href="/logOut" className="text-gray-600">⏻ Log Out</Link>
                     </div>
                 </div>
+
+                {menuOpen && (
+                    <div className="md:hidden px-4 pb-4 space-y-2">
+                        <Link href="/" className="block text-gray-600">Home</Link>
+                        <Link href="/history" className="block text-gray-600">History</Link>
+                        <Link href="/transaksi/Product" className="block text-green-600">Products</Link>
+                        <Link href="/akun" className="block text-gray-600 font-medium">Profile</Link>
+                        <Link href="/logOut" className="block text-gray-600">⏻ Log Out</Link>
+                    </div>
+                )}
             </nav>
 
             <main className="container mx-auto px-4 py-6">
@@ -62,9 +80,9 @@ export default function Products() {
                                 <tr>
                                     <th className="p-3">Select</th>
                                     <th className="p-3">Product</th>
-                                    <th className="p-3">Units Sold</th>
-                                    <th className="p-3">In Stock</th>
-                                    <th className="p-3">Expire Date</th>
+                                    <th className="p-3">Terjual</th>
+                                    <th className="p-3">Stock</th>
+                                    <th className="p-3">Pengambilan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,7 +95,7 @@ export default function Products() {
                                                 onChange={() => toggleSelect(p.id)}
                                             />
                                         </td>
-                                        <td className="p-3">{`${startIndex + index + 1}. ${p.name}`}</td>
+                                        <td className="p-3">{p.Nama}</td>
                                         <td className="p-3">{p.sold}</td>
                                         <td className="p-3">{p.Stock}</td>
                                         <td className="p-3">{p.Expired}</td>
@@ -112,3 +130,4 @@ export default function Products() {
         </div>
     );
 }
+

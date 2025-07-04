@@ -4,15 +4,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Link from "next/link";
 import { useState } from 'react';
 import { Phone } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export default function akun() {
+    const [menuOpen, setMenuOpen] = useState(false);
     const [profileImage, setProfileImage] = useState("/profile.jpeg");
-    const [account, setAccount] = useState({
-        username: "Ipeng suripeng",
-        email: "Ipeng@Gmail.com",
-        password: "Ipeng123",
-        confirmPassword: "Ipeng123",
-        phone: "+62 812-3456-7890",
+    const [account, setAccount] = useState({ username: "Ipeng suripeng", email: "Ipeng@Gmail.com", password: "Ipeng123", confirmPassword: "Ipeng123", phone: "+62 812-3456-7890",
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAccount({ ...account, [e.target.name]: e.target.value });
@@ -27,16 +24,33 @@ export default function akun() {
     return (
         <div className="min-h-screen">
             <nav className="bg-white shadow">
-                <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold text-black">SARIMUKTI</h1>
-                    <div className="space-x-4 mt-2 md:mt-0">
-                        <Link href="/" className="text-gray-600">Dashboard</Link>
+
+                    <div className="md:hidden">
+                        <button onClick={() => setMenuOpen(!menuOpen)}>
+                            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                        </button>
+                    </div>
+
+                    <div className="hidden md:flex space-x-4">
+                        <Link href="/" className="text-gray-600">Home</Link>
                         <Link href="/history" className="text-gray-600">History</Link>
                         <Link href="/transaksi/Product" className="text-gray-600">Products</Link>
-                        <Link href="/akun" className="text-gray-600">Profile</Link>
+                        <Link href="/akun" className="text-green-600 font-medium">Profile</Link>
                         <Link href="/logOut" className="text-gray-600">⏻ Log Out</Link>
                     </div>
                 </div>
+
+                {menuOpen && (
+                    <div className="md:hidden px-4 pb-4 space-y-2">
+                        <Link href="/" className="block text-gray-600">Home</Link>
+                        <Link href="/history" className="block text-gray-600">History</Link>
+                        <Link href="/transaksi/Product" className="block text-gray-600">Products</Link>
+                        <Link href="/akun" className="block text-green-600 font-medium">Profile</Link>
+                        <Link href="/logOut" className="block text-gray-600">⏻ Log Out</Link>
+                    </div>
+                )}
             </nav>
 
             <div className="flex flex-col md:flex-row gap-10 bg-white shadow-lg p-10 rounded-lg w-full max-w-4xl mx-auto mt-10 text-gray-800">
@@ -78,8 +92,7 @@ export default function akun() {
                         <img src={profileImage} alt="Profile" className="w-32 h-32 object-cover rounded mx-auto mb-4" />
                         <label className="cursor-pointer inline-block border px-4 py-2 rounded hover:bg-gray-100">
                             Upload New…
-                            <input type="file" accept="image/*" onChange={handleImageChange} className="hidden"
-                            />
+                            <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                         </label>
                     </div>
                 </div>
