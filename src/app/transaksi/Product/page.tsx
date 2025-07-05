@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from 'lucide-react';
+import { useRouter } from "next/navigation";
 
 
 export default function Products() {
@@ -23,6 +24,7 @@ export default function Products() {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const paginatedProducts = productsList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
     const totalPages = Math.ceil(productsList.length / ITEMS_PER_PAGE);
+    const router = useRouter();
 
     const toggleSelect = (id: number) => {
         setSelected((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
@@ -113,10 +115,25 @@ export default function Products() {
                         Delete Selected
                     </button>
 
+                    <button
+                        className={`mt-6 px-4 py-2 rounded ${selected.length === 0
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-blue-500 hover:bg-blue-600'
+                            } text-white`}
+                        onClick={() => {
+                            if (selected.length > 0) {
+                                router.push('/transaksi/edit');
+                            }
+                        }}
+                        disabled={selected.length === 0}
+                    >
+                        Edit Selected
+                    </button>
+
                     <div className="mt-6 flex gap-2 flex-wrap text-gray-600">
                         {Array.from({ length: totalPages }).map((_, i) => (
                             <button
-                                key={i}
+                                key={`page-${i + 1}`}
                                 onClick={() => setCurrentPage(i + 1)}
                                 className={`px-3 py-1 rounded border ${currentPage === i + 1 ? "bg-gray-300 font-semibold" : "hover:bg-gray-100"
                                     }`}

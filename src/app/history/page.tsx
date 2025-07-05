@@ -87,11 +87,14 @@ export default function Products() {
                     </div>
 
                     <div className="mt-6 flex gap-2 flex-wrap text-gray-600">
-                        {Array.from({ length: totalPages }).map((_, i) => (
-                            <button key={i} onClick={() => setCurrentPage(i + 1)} className={`px-3 py-1 rounded border ${currentPage === i + 1 ? "bg-gray-300 font-semibold" : "hover:bg-gray-100"}`}>
-                                {i + 1}
-                            </button>
-                        ))}
+                        {Array.from({ length: totalPages }).map((_, i) => {
+                            const pageNum = i + 1;
+                            return (
+                                <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={`px-3 py-1 rounded border ${currentPage === pageNum ? "bg-gray-300 font-semibold" : "hover:bg-gray-100"}`}>
+                                    {pageNum}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             </main>
